@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Best Checkout</name>
+    <version>3.1</version>
+    <author>AlyaNet</author>
+	<file path="admin/controller/customer/custom_field.php">
+		<operation error="skip">
+			<search><![CDATA['sort_order'      => $result['sort_order'],]]></search>
+			<add position="after"><![CDATA[
+				'edit_custom'     => $this->url->link($this->config->get('xtensions_custom_fields_path').'/edit', 'user_token=' . $this->session->data['user_token'] . '&custom_field_id=' . $result['custom_field_id'] . $url, true),
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[if (isset($this->request->post['selected'])) {]]></search>
+			<add position="before"><![CDATA[
+        		$data['button_edit_custom'] = $this->language->get('button_edit_custom');
+        		$data['button_add_custom'] = $this->language->get('button_add_custom');
+        		$data['add_custom'] = $this->url->link($this->config->get('xtensions_custom_fields_path').'/add', 'user_token=' . $this->session->data['user_token'] . $url, true);
+        ]]></add>
+		</operation>
+	</file>
+	<file path="admin/language/*/customer/custom_field.php">
+		<operation error="skip">
+			<search><![CDATA[<?php]]></search>
+			<add position="after"><![CDATA[
+				$_['button_edit_custom']                = 'Özel Alanlar Düzenle';
+				$_['button_add_custom']                 = 'Yeni Özel Alan Ekle';
+			]]></add>
+		</operation>
+	</file>
+	<file path="admin/view/template/customer/custom_field_list.twig">
+		<operation error="skip">
+			<search><![CDATA[<td class="text-right"><a href="{{ custom_field.edit }}" data-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>]]></search>
+			<add position="replace"><![CDATA[
+				<td class="text-right"><a href="{{ custom_field.edit_custom }}" data-toggle="tooltip" title="{{ button_edit_custom }}" class="btn btn-primary"><i class="fa fa-pencil"></i> {{ button_edit_custom }}</a><a href="{{ custom_field.edit }}" data-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[<div class="pull-right"><a href="{{ add }}" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus"></i></a>]]></search>
+			<add position="replace"><![CDATA[
+				<div class="pull-right"><a href="{{ add_custom }}" data-toggle="tooltip" title="{{ button_add_custom }}" class="btn btn-primary"><i class="fa fa-plus"></i> {{ button_add_custom }}</a><a href="{{ add }}" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus"></i></a>
+			]]></add>
+		</operation>
+	</file>
+	<file path="admin/view/template/sale/order_invoice.twig">
+		<operation error="skip">
+			<search><![CDATA[{{ order.payment_address }}]]></search>
+			<add position="after"><![CDATA[
+			{% if order['customer_fields'] %} {{ '<br/>' }} {% endif %}
+			{% for field in order['customer_fields'] %}
+			{{ field?'<br/>'~field:'' }}
+			{% endfor %}
+			]]></add>
+		</operation>
+	</file>
+	<file path="admin/view/template/sale/order_shipping.twig">
+		<operation error="skip">
+			<search><![CDATA[{{ order.telephone }}</td>]]></search>
+			<add position="replace"><![CDATA[
+			{{ order.telephone }}
+			{% if order['customer_fields'] %} {{ '<br/>' }} {% endif %}
+			{% for field in order['customer_fields'] %}
+			{{ field?'<br/>'~field:'' }}
+			{% endfor %}
+			</td>
+       		]]></add>
+		</operation>
+	</file>
+	<file path="admin/controller/sale/order.php">
+		<operation error="skip">
+			<search><![CDATA[$data['products'] = array();]]></search>
+			<add position="before"><![CDATA[
+        //xtensions- Custom Fields
+  			if($this->xtensions_checkout->isActive('xtensions_best_checkout',$order_info['store_id'])){
+  				$formatted_address = $this->xtensions_checkout->getXtensionsModel($this->config->get('xtensions_custom_fields_path'))->getFormattedAddressForOrder($order_info);
+  				$data['payment_address'] = $formatted_address['payment_address_formatted'];
+  				$data['shipping_address'] = $formatted_address['shipping_address_formatted'];
+  			}
+  			//xtensions- Custom Fields
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$product_data = array();]]></search>
+			<add position="before"><![CDATA[
+        //xtensions- Custom Fields
+				$customer_fields =array();
+				if($this->xtensions_checkout->isActive('xtensions_best_checkout',$order_info['store_id'])){
+					$customer_fields =array();
+					$fieldData = $this->xtensions_checkout->getXtensionsModel($this->config->get('xtensions_custom_fields_path'))->getCustomFieldByIdentifier($order_info['custom_field'],'account');
+					foreach($this->xtensions_checkout->getXtensionsModel($this->config->get('xtensions_custom_fields_path'))->getCustomFieldsAll($order_info['customer_group_id']) as $field){
+						if($field['location']=='account' && $field['invoice']){
+							if(isset($fieldData[$field['identifier']])){
+								$customer_fields[] = $fieldData[$field['identifier']];
+							}
+						}
+					}
+					$formatted_address = $this->xtensions_checkout->getXtensionsModel($this->config->get('xtensions_custom_fields_path'))->getFormattedAddressForOrder($order_info);
+					$payment_address = $formatted_address['payment_address_formatted'];
+					$shipping_address = $formatted_address['shipping_address_formatted'];
+				}
+				//xtensions- Custom Fields
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA['order_id'	       => $order_id,]]></search>
+			<add position="before"><![CDATA[
+        //xtensions- Custom Fields
+        'customer_fields'	 => $customer_fields,
+        //xtensions- Custom Fields
+			]]></add>
+		</operation>
+	</file>
+	<file path="admin/controller/startup/startup.php">
+		<operation error="skip">
+			<search><![CDATA[$this->registry->set('cart', new Cart\Cart($this->registry));]]></search>
+			<add position="after"><![CDATA[
+        $xtensions_checkout = new XtensionsCheckout($this->registry);
+  			$this->registry->set('xtensions_checkout', $xtensions_checkout);
+                ]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/startup/startup.php">
+		<operation error="skip">
+			<search><![CDATA[$this->registry->set('cart', new Cart\Cart($this->registry));]]></search>
+			<add position="after"><![CDATA[
+        	$xtensions_checkout = new XtensionsCheckout($this->registry);
+  			$this->registry->set('xtensions_checkout', $xtensions_checkout);
+                ]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/checkout/checkout.php">
+		<operation error="skip">
+			<search><![CDATA[$this->response->setOutput($this->load->view('checkout/checkout', $data));]]></search>
+			<add position="replace"><![CDATA[
+        // Xtensions Best Checkout
+    		if ($this->xtensions_checkout->isActive('xtensions_best_checkout', $this->config->get('config_store_id'))) {
+    			$data += $this->load->language($this->config->get('xtensions_language_path'));
+    			$data['xtensions_controller_path'] = $this->config->get('xtensions_controller_path');
+    			$data['xheader'] = $this->load->controller($data['xtensions_controller_path'].'xheader');
+    			$data['xfooter'] = $this->load->controller($data['xtensions_controller_path'].'xfooter');
+    			$data['xcvc'] = $this->load->controller($data['xtensions_controller_path'].'xcvc');
+
+    			$modData = $this->xtensions_checkout->getXtensionsData($this->config->get('config_store_id'), 'xtensions_best_checkout');
+    			$data['custom_js'] = isset($modData['xconfig']['design']['js']) ? html_entity_decode($modData['xconfig']['design']['js'], ENT_QUOTES, 'UTF-8') : '';
+    			$this->response->setOutput($this->load->view($this->config->get('xtensions_view_path').'xcheckout', $data));
+    			// Xtensions Best Checkout
+    		} else {
+    			$this->response->setOutput($this->load->view('checkout/checkout', $data));
+    		}
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment.js');]]></search>
+			<add position="replace"><![CDATA[
+        if ($this->xtensions_checkout->isActive('xtensions_best_checkout', $this->config->get('config_store_id'))) {
+        	// $this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment.js'); - Included by Xtensions
+        } else {
+        	 $this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment.js');
+        }
+        ]]></add>
+		</operation>
+    <operation error="skip">
+			<search><![CDATA[$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js');]]></search>
+			<add position="replace"><![CDATA[
+        if ($this->xtensions_checkout->isActive('xtensions_best_checkout', $this->config->get('config_store_id'))) {
+    			// $this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js'); - Included by Xtensions
+    		} else {
+    			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js');
+    		}
+        ]]></add>
+		</operation>
+    <operation error="skip">
+			<search><![CDATA[$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');]]></search>
+			<add position="replace"><![CDATA[
+        if ($this->xtensions_checkout->isActive('xtensions_best_checkout', $this->config->get('config_store_id'))) {
+    			// $this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css'); - Included by Xtensions
+    		} else {
+    			$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
+    		}
+        ]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/checkout/confirm.php">
+		<operation error="skip">
+			<search><![CDATA[$this->response->setOutput($this->load->view('checkout/confirm', $data));]]></search>
+			<add position="replace"><![CDATA[
+        // Xtensions Best Checkout
+        if ($this->xtensions_checkout->isActive('xtensions_best_checkout', $this->config->get('config_store_id'))) {
+    			$this->response->setOutput($this->load->view($this->config->get('xtensions_view_path').'xconfirm', $data));
+    		} else {
+    			$this->response->setOutput($this->load->view('checkout/confirm', $data));
+    		}
+        // Xtensions Best Checkout
+        ]]></add>
+		</operation>
+    <operation error="skip">
+			<search><![CDATA[$this->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data);]]></search>
+			<add position="replace"><![CDATA[
+        // Xtensions Best Checkout
+            $xconfig = $this->xtensions_checkout->getXtensionsData($this->config->get('config_store_id'), 'xtensions_best_checkout');
+            $misc_options = $xconfig['xconfig']['options'];
+            if(isset($misc_options['payment']['content'][$this->session->data['payment_method']['code']][$this->config->get('config_language_id')])){
+            	$data['before_content'] = html_entity_decode($misc_options['payment']['content'][$this->session->data['payment_method']['code']][$this->config->get('config_language_id')], ENT_QUOTES, 'UTF-8');
+            }else{
+            	$data['before_content'] = '';
+            }
+  			$data['isBestActive'] = $this->xtensions_checkout->isActive('xtensions_best_checkout',$this->config->get('config_store_id'));
+  			if(!isset($this->session->data['order_id']) || !$this->xtensions_checkout->isActive('xtensions_best_checkout',$this->config->get('config_store_id'))){
+  				$this->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data);
+  			}else{
+  				$this->model_checkout_order->editOrder($this->session->data['order_id'],$order_data);
+  				$this->xtensions_checkout->getXtensionsModel($this->config->get('xtensions_custom_fields_model_path'))->editOrderXtensions($this->session->data['order_id'],$order_data);
+  			}
+  			// Xtensions Best Checkout
+        ]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/mail/order.php">
+		<operation error="skip">
+			<search index="1"><![CDATA[$data['ip'] = $order_info['ip'];]]></search>
+			<add position="after"><![CDATA[
+        // Xtensions Best Checkout
+				$data['customer_fields'] = array();
+				if($this->xtensions_checkout->isActive('xtensions_best_checkout',$this->config->get('config_store_id'))){
+
+					$fieldData = $this->xtensions_checkout->getXtensionsModel($this->config->get('xtensions_custom_fields_model_path'))->getCustomFieldByIdentifier($order_info['custom_field'],'account');
+					foreach($this->xtensions_checkout->getXtensionsModel($this->config->get('xtensions_custom_fields_model_path'))->getCustomFields($order_info['customer_group_id']) as $field){
+						if($field['location']=='account' && $field['email_display']){
+							if(isset($fieldData[$field['identifier']])){
+								$data['customer_fields'][] = array('name'=>$field['name'],'value'=>$fieldData[$field['identifier']]);
+							}
+						}
+					}
+				}
+				// Xtensions Best Checkout
+      ]]></add>
+		</operation>
+		<operation error="skip">
+			<search index="1"><![CDATA[$data['products'] = array();]]></search>
+			<add position="before"><![CDATA[
+        // Xtensions Best Checkout
+				if($this->xtensions_checkout->isActive('xtensions_best_checkout',$this->config->get('config_store_id'))){
+					$formatted_address = $this->xtensions_checkout->getXtensionsModel($this->config->get('xtensions_custom_fields_model_path'))->getFormattedAddressForOrder($order_info);
+					$data['payment_address'] = $formatted_address['payment_address_formatted'];
+					$data['shipping_address'] = $formatted_address['shipping_address_formatted'];
+				}
+				// Xtensions Best Checkout
+			]]></add>
+		</operation>
+	</file>
+	<file path="catalog/model/checkout/order.php">
+		<operation error="skip">
+			<search><![CDATA['order_id'                => $order_query->row['order_id'],]]></search>
+			<add position="after"><![CDATA[
+        // Xtensions Best Checkout
+        			'customer_group_id'       => $order_query->row['customer_group_id'],
+        // Xtensions Best Checkout
+        ]]></add>
+		</operation>
+	</file>
+	<file path="catalog/view/theme/*/template/mail/order_add.twig">
+		<operation error="skip">
+			<search><![CDATA[<b>{{ text_ip }}</b> {{ ip }}<br />]]></search>
+			<add position="before"><![CDATA[
+			{% for field in customer_fields %}
+  			{% if field['value'] %}
+            	<b>{{ field['name'] }}</b> {{ field['value'] }}<br />
+            {% endif %}
+            {% endfor %}
+      ]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/account/order.php">
+		<operation error="skip">
+			<search><![CDATA[$data['shipping_method'] = $order_info['shipping_method'];]]></search>
+			<add position="before"><![CDATA[
+        //xtensions- Custom Fields
+  			if($this->xtensions_checkout->isActive('xtensions_best_checkout',$this->config->get('config_store_id'))){
+  				$formatted_address = $this->xtensions_checkout->getXtensionsModel($this->config->get('xtensions_custom_fields_model_path'))->getFormattedAddressForOrder($order_info);
+  				$data['payment_address'] = $formatted_address['payment_address_formatted'];
+  				$data['shipping_address'] = $formatted_address['shipping_address_formatted'];
+  			}
+  			//xtensions- Custom Fields
+			]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/account/address.php">
+		<operation error="skip">
+			<search><![CDATA[public function add() {]]></search>
+			<add position="after"><![CDATA[
+        if($this->xtensions_checkout->isActive('xtensions_best_checkout',$this->config->get('config_store_id'))){
+    			$this->response->setOutput($this->load->controller($this->config->get('xtensions_account_controller_path').'address/add', '', 'SSL'));
+    			return '';
+    		}
+      ]]></add>
+		</operation>
+    <operation error="skip">
+			<search><![CDATA[public function edit() {]]></search>
+			<add position="after"><![CDATA[
+        if($this->xtensions_checkout->isActive('xtensions_best_checkout',$this->config->get('config_store_id'))){
+    			$this->response->setOutput($this->load->controller($this->config->get('xtensions_account_controller_path').'address/edit', '', 'SSL'));
+    			return '';
+    		}
+      ]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$data['add'] = $this->url->link('account/address/add', '', true);]]></search>
+			<add position="before"><![CDATA[
+        if($this->xtensions_checkout->isActive('xtensions_best_checkout',$this->config->get('config_store_id'))){
+			$data['addresses'] = $this->load->controller($this->config->get('xtensions_account_controller_path').'address/addresses');
+		}
+      ]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/account/edit.php">
+		<operation error="skip">
+			<search><![CDATA[public function index() {]]></search>
+			<add position="after"><![CDATA[
+        if($this->xtensions_checkout->isActive('xtensions_best_checkout',$this->config->get('config_store_id'))){
+    			$this->response->setOutput($this->load->controller($this->config->get('xtensions_account_controller_path').'edit', '', 'SSL'));
+    			return '';
+    		}
+        ]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/account/register.php">
+		<operation error="skip">
+			<search><![CDATA[public function index() {]]></search>
+			<add position="after"><![CDATA[
+        if($this->xtensions_checkout->isActive('xtensions_best_checkout',$this->config->get('config_store_id'))){
+    			$this->response->setOutput($this->load->controller($this->config->get('xtensions_account_controller_path').'register', '', 'SSL'));
+    			return;
+    		}
+        ]]></add>
+		</operation>
+	</file>
+	  	<file path="admin/controller/common/column_left.php">
+    <operation error="skip">
+      <search><![CDATA[$moduller = array();]]></search>
+      <add position="after"><![CDATA[
+        $moduller[] = array(
+          'name'     => $this->language->get('xtensions_checkout'),
+          'href'     => $this->url->link('extension/module/xtensions_checkout', 'user_token=' . $this->session->data['user_token'], true),
+          'children' => array()
+        );
+      ]]></add>
+    </operation>
+  </file>
+  <file path="admin/language/tr-tr/common/column_left.php">
+		<operation>
+			<search><![CDATA[$_['text_backup']]]></search>
+			<add position="after"><![CDATA[
+			$_['xtensions_checkout']             = 'Ödeme Sayfası';
+			]]></add>
+		</operation>
+	</file>
+</modification>
