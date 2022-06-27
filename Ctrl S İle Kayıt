@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <id>ctrlS</id>
+    <version>2.0</version>
+    <vqmver>2.4.1</vqmver>
+    <author>AlyaNet</author>
+
+  <file name="admin/view/template/common/footer.twig">
+    <operation error="skip">
+      <search position="before"><![CDATA[<footer id="footer">]]></search>
+      <add><![CDATA[
+<script>
+document.addEventListener("keydown", function(e) {
+  if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+    e.preventDefault();
+    //console.log('saving!');
+    var formid = $('.page-header').find('button[type=submit]').attr('form');
+    if (jQuery.type(formid) == 'string')
+      $('#' + formid).submit();
+    else
+      console.log('nothing to save!');
+
+  }
+}, false);
+</script>
+        ]]></add>
+    </operation>
+  </file>  
+
+</modification>
