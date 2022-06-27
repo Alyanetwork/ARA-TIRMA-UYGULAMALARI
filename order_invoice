@@ -1,0 +1,300 @@
+<style>
+.table tr td {
+	border: none!important;
+    font-size: 10px;
+    padding: 2!important;
+}
+
+.table thead td {
+    font-weight: normal!important;
+}
+
+.container {
+    width: 100%!important;
+}
+
+.fatura {
+    width: 32%;
+    margin-left: 2%;
+    float: left;
+	position:relative;
+}
+
+.nushabir {
+    margin-left: 0;
+}
+.nushaiki {
+
+}
+.nushauc {
+
+}
+.fatura .ust {
+    height: 150px;
+}
+
+.fatura .adres {
+    height: 100px;
+		width: 50%;
+}
+
+.fatura .tarih {
+    position: absolute;
+    top: 80px;
+    right: 0;
+	  font-size:10px;
+}
+
+.fatura .urunler {
+    height: 400px;
+}
+
+.fatura .toplamlar {
+    height: 110px;
+}
+
+.fatura .yaziile {
+    position:  absolute;
+    bottom: 100px;
+		font-size:10px;
+}
+</style>
+
+<!DOCTYPE html>
+<html dir="{{ direction }}" lang="{{ lang }}">
+<head>
+<meta charset="UTF-8" />
+<title>{{ title }}</title>
+<base href="{{ base }}" />
+<link href="view/javascript/bootstrap/css/bootstrap.css" rel="stylesheet" media="all" />
+<script type="text/javascript" src="view/javascript/jquery/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="view/javascript/bootstrap/js/bootstrap.min.js"></script>
+<link href="view/javascript/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet" />
+<link type="text/css" href="view/stylesheet/stylesheet.css" rel="stylesheet" media="all" />
+</head>
+<body>
+<div class="container">
+  {% for order in orders %}
+  <div class="fatura nushabir">
+
+   <div class="ust"></div>
+
+   <div class="adres">
+    <table class="table">
+      <tbody>
+        <tr>
+          <td><address>
+            {{ order.payment_address }}</br>{{ order.telephone }}
+            </address></td>
+        </tr>
+      </tbody>
+    </table>
+   </div>
+
+   <div class="tarih">{{ order.date_added }}<br>16:30<br>{{ order.date_added }}</div>
+
+   <div class="urunler">
+    <table class="table">
+      <thead>
+        <tr>
+          <td width="70%">{{ column_product }}</td>
+          <td width="10%" class="text-right">{{ column_quantity }}</td>
+          <td width="10%" class="text-right">{{ column_price }}</td>
+          <td width="10%" class="text-right">{{ column_total }}</td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in order.product %}
+        <tr>
+          <td width="70%">{{ product.name }}
+            {% for option in product.option %}&nbsp;<small> - {{ option.value }}</small>
+            {% endfor %}</td>
+          <td width="10%" class="text-right">{{ product.quantity }}</td>
+          <td width="10%" class="text-right">{{ product.price }}</td>
+          <td width="10%" class="text-right">{{ product.total }}</td>
+        </tr>
+        {% endfor %}
+     </tbody>
+    </table>
+   </div>
+   <div class="toplamlar">
+	<table class="table">
+		<tbody>
+        {% for voucher in order.voucher %}
+        <tr>
+          <td>{{ voucher.description }}</td>
+          <td></td>
+          <td class="text-right">1</td>
+          <td class="text-right">{{ voucher.amount }}</td>
+          <td class="text-right">{{ voucher.amount }}</td>
+        </tr>
+        {% endfor %}
+        {% for total in order.total %}
+        <tr>
+          <td class="text-right" colspan="4">{{ total.title }}</td>
+          <td class="text-right">{{ total.text }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="yaziile">
+      {% for total in order.total %}
+        {% if total.title == 'Toplam' %}
+        #{{ yaziylayaz(total.text) }}#
+        {% endif %}
+      {% endfor %}
+  </div>
+  </div>
+  {% endfor %}
+
+  {% for order in orders %}
+  <div class="fatura nushaiki">
+
+   <div class="ust"></div>
+
+   <div class="adres">
+    <table class="table">
+      <tbody>
+        <tr>
+          <td><address>
+            {{ order.payment_address }}</br>{{ order.telephone }}
+            </address></td>
+        </tr>
+      </tbody>
+    </table>
+   </div>
+
+   <div class="tarih">{{ order.date_added }}<br>16:30<br>{{ order.date_added }}</div>
+
+   <div class="urunler">
+    <table class="table">
+      <thead>
+        <tr>
+          <td width="70%">{{ column_product }}</td>
+          <td width="10%" class="text-right">{{ column_quantity }}</td>
+          <td width="10%" class="text-right">{{ column_price }}</td>
+          <td width="10%" class="text-right">{{ column_total }}</td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in order.product %}
+        <tr>
+          <td width="70%">{{ product.name }}
+            {% for option in product.option %}&nbsp;<small> - {{ option.value }}</small>
+            {% endfor %}</td>
+          <td width="10%" class="text-right">{{ product.quantity }}</td>
+          <td width="10%" class="text-right">{{ product.price }}</td>
+          <td width="10%" class="text-right">{{ product.total }}</td>
+        </tr>
+        {% endfor %}
+     </tbody>
+    </table>
+   </div>
+   <div class="toplamlar">
+	<table class="table">
+		<tbody>
+        {% for voucher in order.voucher %}
+        <tr>
+          <td>{{ voucher.description }}</td>
+          <td></td>
+          <td class="text-right">1</td>
+          <td class="text-right">{{ voucher.amount }}</td>
+          <td class="text-right">{{ voucher.amount }}</td>
+        </tr>
+        {% endfor %}
+        {% for total in order.total %}
+        <tr>
+          <td class="text-right" colspan="4">{{ total.title }}</td>
+          <td class="text-right">{{ total.text }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="yaziile">
+      {% for total in order.total %}
+        {% if total.title == 'Toplam' %}
+        #{{ yaziylayaz(total.text) }}#
+        {% endif %}
+      {% endfor %}
+  </div>
+  </div>
+  {% endfor %}
+
+  {% for order in orders %}
+  <div class="fatura nushauc">
+
+   <div class="ust"></div>
+
+   <div class="adres">
+    <table class="table">
+      <tbody>
+        <tr>
+          <td><address>
+            {{ order.payment_address }}</br>{{ order.telephone }}
+            </address></td>
+        </tr>
+      </tbody>
+    </table>
+   </div>
+
+   <div class="tarih">{{ order.date_added }}<br>16:30<br>{{ order.date_added }}</div>
+
+   <div class="urunler">
+    <table class="table">
+      <thead>
+        <tr>
+          <td width="70%">{{ column_product }}</td>
+          <td width="10%" class="text-right">{{ column_quantity }}</td>
+          <td width="10%" class="text-right">{{ column_price }}</td>
+          <td width="10%" class="text-right">{{ column_total }}</td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in order.product %}
+        <tr>
+          <td width="70%">{{ product.name }}
+            {% for option in product.option %}&nbsp;<small> - {{ option.value }}</small>
+            {% endfor %}</td>
+          <td width="10%" class="text-right">{{ product.quantity }}</td>
+          <td width="10%" class="text-right">{{ product.price }}</td>
+          <td width="10%" class="text-right">{{ product.total }}</td>
+        </tr>
+        {% endfor %}
+     </tbody>
+    </table>
+   </div>
+   <div class="toplamlar">
+	<table class="table">
+		<tbody>
+        {% for voucher in order.voucher %}
+        <tr>
+          <td>{{ voucher.description }}</td>
+          <td></td>
+          <td class="text-right">1</td>
+          <td class="text-right">{{ voucher.amount }}</td>
+          <td class="text-right">{{ voucher.amount }}</td>
+        </tr>
+        {% endfor %}
+        {% for total in order.total %}
+        <tr>
+          <td class="text-right" colspan="4">{{ total.title }}</td>
+          <td class="text-right">{{ total.text }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="yaziile">
+      {% for total in order.total %}
+        {% if total.title == 'Toplam' %}
+        #{{ yaziylayaz(total.text) }}#
+        {% endif %}
+      {% endfor %}
+  </div>
+  </div>
+  {% endfor %}
+</div>
+</body>
+</html>
