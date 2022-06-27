@@ -1,0 +1,44 @@
+<modification>
+     <name>Sağ Tık Engelleme</name>
+              <author>AlyaNet</author>
+              <version>3.0</version>
+
+	<file name="catalog/view/theme/*/template/common/header.tpl">
+	<operation error="skip">
+			<search position="before"><![CDATA[</head>]]></search>
+			<add><![CDATA[			
+<script type="text/javascript">
+    var message="Güvenlik nedeniyle bu sitede sağ tıklama engellenmiştir!";
+    function clickIE() {if (document.all) {alert(message);return false;}}
+    function clickNS(e) {if
+    (document.layers||(document.getElementById&&!document.all)) {
+    if (e.which==2||e.which==3) {alert(message);return false;}}}
+    if (document.layers)
+    {document.captureEvents(Event.MOUSEDOWN);document.onmousedown=clickNS;}
+    else{document.onmouseup=clickNS;document.oncontextmenu=clickIE;}
+
+    document.oncontextmenu=new Function("return false")
+ </script>
+ ]]></add>
+	</operation>
+	</file>
+	<file name="catalog/view/theme/*/template/common/header.twig">
+	<operation error="skip">
+			<search position="before"><![CDATA[</head>]]></search>
+			<add><![CDATA[			
+<script type="text/javascript">
+    var message="Güvenlik nedeniyle bu sitede sağ tıklama engellenmiştir!";
+    function clickIE() {if (document.all) {alert(message);return false;}}
+    function clickNS(e) {if
+    (document.layers||(document.getElementById&&!document.all)) {
+    if (e.which==2||e.which==3) {alert(message);return false;}}}
+    if (document.layers)
+    {document.captureEvents(Event.MOUSEDOWN);document.onmousedown=clickNS;}
+    else{document.onmouseup=clickNS;document.oncontextmenu=clickIE;}
+
+    document.oncontextmenu=new Function("return false")
+ </script>
+ ]]></add>
+	</operation>
+	</file>	
+</modification>
