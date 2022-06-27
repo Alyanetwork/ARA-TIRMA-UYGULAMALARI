@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Auto Meta Title</name>
+              <author>Alyanet</author>
+              <version>3.0</version>
+	
+    <file path="admin/view/template/catalog/product_form.twig">
+    	<operation eror="skip">
+    		<search><![CDATA[{% if error_meta_title[language.language_id] %}]]></search>
+    		<add position="before"><![CDATA[                
+                <script type="text/javascript">
+                    $(function() {
+                        $("input[name='product_description[{{ language.language_id }}][name]']").keyup(function() {
+                            $("input[name='product_description[{{ language.language_id }}][meta_title]']").val($(this).val());
+                        });
+                    });
+              </script>
+            ]]></add>
+    	</operation>
+	</file>
+
+    <file path="admin/view/template/catalog/category_form.twig">
+        <operation eror="skip">
+            <search><![CDATA[{% if error_meta_title[language.language_id] %}]]></search>
+            <add position="before"><![CDATA[                
+                <script type="text/javascript">
+                    $(function() {
+                        $("input[name='category_description[{{ language.language_id }}][name]']").keyup(function() {
+                            $("input[name='category_description[{{ language.language_id }}][meta_title]']").val($(this).val());
+                        });
+                    });
+              </script>
+            ]]></add>
+        </operation>
+    </file>
+
+    <file path="admin/view/template/catalog/information_form.twig">
+        <operation eror="skip">
+            <search><![CDATA[{% if error_meta_title[language.language_id] %}]]></search>
+            <add position="before"><![CDATA[                
+                <script type="text/javascript">
+                    $(function() {
+                        $("input[name='information_description[{{ language.language_id }}][title]']").keyup(function() {
+                            $("input[name='information_description[{{ language.language_id }}][meta_title]']").val($(this).val());
+                        });
+                    });
+              </script>
+            ]]></add>
+        </operation>
+    </file>
+
+</modification>
