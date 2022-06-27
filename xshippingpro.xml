@@ -1,0 +1,28 @@
+<!-- Version 3.0 -->
+<modification>
+	<name>Süper Kargo</name>
+	<version>3.x</version>
+	<author>AlyaNet</author>
+	
+  	<file path="admin/controller/common/column_left.php">
+    <operation error="skip">
+      <search><![CDATA[$moduller = array();]]></search>
+      <add position="after"><![CDATA[
+        $moduller[] = array(
+          'name'     => $this->language->get('xshippingpro'),
+          'href'     => $this->url->link('extension/shipping/xshippingpro', 'user_token=' . $this->session->data['user_token'], true),
+          'children' => array()
+        );
+      ]]></add>
+    </operation>
+  </file>
+  <file path="admin/language/tr-tr/common/column_left.php">
+		<operation>
+			<search><![CDATA[$_['text_backup']]]></search>
+			<add position="after"><![CDATA[
+			$_['xshippingpro']             = 'Gelişmiş Kargo';
+			]]></add>
+		</operation>
+	</file>	
+	
+</modification>
