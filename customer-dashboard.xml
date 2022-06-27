@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<id>customer dashboard/account design</id>
+    <version>2.0</version>
+    <vqmver>2.0.0</vqmver>
+    <author>AlyaNet</author>
+<file name="catalog/view/theme/*/template/account/account.twig">   
+	<operation error="skip">
+		<search position="before"><![CDATA[<ul class="breadcrumb">]]></search> 
+			<add><![CDATA[     		
+<style>
+.ikonlar {
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+.ikonlar h5 {
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 10px;
+    color:#333;
+    height: 30px;    
+}
+</style>
+      ]]></add>
+	</operation>  
+	<operation error="skip">
+		<search position="replace"><![CDATA[<h2>{{ text_my_affiliate }}</h2>]]></search> 
+			<add offset="8"><![CDATA[     		
+
+      ]]></add>
+	</operation> 
+	
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="{{ edit }}">{{ text_edit }}</a></li>]]></search> 
+			<add><![CDATA[     		
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="{{ edit }}"><img src="catalog/view/theme/default/image/account-images/edit.png" alt="{{ text_edit }}" >
+<h5>{{ text_edit }}</h5></a></div>
+      ]]></add>
+	</operation> 
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="{{ password }}">{{ text_password }}</a></li>]]></search> 
+			<add><![CDATA[     		
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="{{ password }}"><img src="catalog/view/theme/default/image/account-images/password.png" alt="{{ text_password }}" >
+<h5>{{ text_password }}</h5></a></div>
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="{{ address }}">{{ text_address }}</a></li>]]></search> 
+			<add><![CDATA[     		
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar"><a class="hvr" href="{{ address }}"><img src="catalog/view/theme/default/image/account-images/address.png" alt="{{ text_address }}" >
+<h5>{{ text_address }}</h5></a></div>
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>]]></search> 
+			<add><![CDATA[     		
+					<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar">
+						<a class="hvr" href="{{ wishlist }}">
+							<img src="catalog/view/theme/default/image/account-images/wishlist.png" alt="{{ text_wishlist }}" >
+							<h5>{{ text_wishlist }}</h5>
+						</a>
+					</div><div class="clearfix"></div>
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="{{ order }}">{{ text_order }}</a></li>]]></search> 
+			<add><![CDATA[     		
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="{{ order }}"><img src="catalog/view/theme/default/image/account-images/orders.png" alt="{{ text_order }}" >
+<h5>{{ text_order }}</h5></a></div>
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="{{ download }}">{{ text_download }}</a></li>]]></search> 
+			<add><![CDATA[     		
+
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="{{ reward }}">{{ text_reward }}</a></li>]]></search> 
+			<add><![CDATA[     		
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="{{ reward }}"><img src="catalog/view/theme/default/image/account-images/reward.png" alt="{{ text_reward }}" >
+<h5>{{ text_reward }}</h5></a></div>
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="{{ return }}">{{ text_return }}</a></li>]]></search> 
+			<add><![CDATA[     		
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="{{ return }}"><img src="catalog/view/theme/default/image/account-images/return.png" alt="{{ text_return }}" >
+<h5>{{ text_return }}</h5></a></div>
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="{{ transaction }}">{{ text_transaction }}</a></li>]]></search> 
+			<add><![CDATA[     		
+<!--<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="{{ transaction }}"><img src="catalog/view/theme/default/image/account-images/trans.png" alt="{{ text_transaction }}" >
+<h5>{{ text_transaction }}</h5></a></div>-->
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="{{ recurring }}">{{ text_recurring }}</a></li>]]></search> 
+			<add><![CDATA[     		
+<!--<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="{{ recurring }}"><img src="catalog/view/theme/default/image/account-images/payments.png" alt="{{ text_recurring }}" >
+<h5>{{ text_recurring }}</h5></a></div><div class="clearfix"></div>-->
+      ]]></add>
+	</operation>	
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>]]></search> 
+			<add offset="-19"><![CDATA[     		
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="{{ newsletter }}"><img src="catalog/view/theme/default/image/account-images/newsletter.png" alt="{{ text_newsletter }}" >
+<h5>{{ text_newsletter }}</h5></a></div>
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="/cikis"><img src="catalog/view/theme/default/image/account-images/exit.png" alt="Çıkış Yap" >
+<h5>Çıkış Yap</h5></a></div>
+      ]]></add>
+	</operation> 
+	<operation error="skip">
+		<search position="replace"><![CDATA[<h2>{{ text_my_newsletter }}</h2>]]></search> 
+			<add><![CDATA[
+      ]]></add>
+	</operation>  	
+</file>
+
+<file name="catalog/view/theme/*/template/account/account.tpl">   
+	<operation error="skip">
+		<search position="before"><![CDATA[<ul class="breadcrumb">]]></search> 
+			<add><![CDATA[     		
+<style>
+.ikonlar {
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+.ikonlar h5 {
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 10px;
+    color:#333;
+    height: 30px;    
+}
+</style>
+      ]]></add>
+	</operation>  
+	<operation error="skip">
+		<search position="replace"><![CDATA[<h2 class="secondary-title"><?php echo $text_my_newsletter; ?></h2>]]></search> 
+			<add><![CDATA[     		
+
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<h2><?php echo $text_my_affiliate; ?></h2>]]></search> 
+			<add offset="9"><![CDATA[     		
+
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="<?php echo $edit; ?>"><?php echo $text_edit; ?></a></li>]]></search> 
+			<add><![CDATA[     		
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="<?php echo $edit; ?>"><img src="catalog/view/theme/default/image/account-images/edit.png" alt="Account Details" >
+<h5><?php echo $text_edit; ?></h5></a></div>
+      ]]></add>
+	</operation> 
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="<?php echo $password; ?>"><?php echo $text_password; ?></a></li>]]></search> 
+			<add><![CDATA[     		
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="<?php echo $password; ?>"><img src="catalog/view/theme/default/image/account-images/password.png" alt="Account Password" >
+<h5><?php echo $text_password; ?></h5></a></div>
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="<?php echo $address; ?>"><?php echo $text_address; ?></a></li>]]></search> 
+			<add><![CDATA[     		
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar"><a class="hvr" href="<?php echo $address; ?>"><img src="catalog/view/theme/default/image/account-images/address.png" alt="Address Book" >
+<h5><?php echo $text_address; ?></h5></a></div>
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="<?php echo $wishlist; ?>"><?php echo $text_wishlist; ?></a></li>]]></search> 
+			<add><![CDATA[     		
+					<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar">
+						<a class="hvr" href="<?php echo $wishlist; ?>">
+							<img src="catalog/view/theme/default/image/account-images/wishlist.png" alt="Wish List" >
+							<h5><?php echo $text_wishlist; ?></h5>
+						</a>
+					</div><div class="clearfix"></div>
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>]]></search> 
+			<add><![CDATA[     		
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="<?php echo $order; ?>"><img src="catalog/view/theme/default/image/account-images/orders.png" alt="Order History" >
+<h5><?php echo $text_order; ?></h5></a></div>
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="<?php echo $download; ?>"><?php echo $text_download; ?></a></li>]]></search> 
+			<add><![CDATA[     		
+
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="<?php echo $reward; ?>"><?php echo $text_reward; ?></a></li>]]></search> 
+			<add><![CDATA[     		
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="<?php echo $reward; ?>"><img src="catalog/view/theme/default/image/account-images/reward.png" alt="Reward Points" >
+<h5><?php echo $text_reward; ?></h5></a></div>
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="<?php echo $return; ?>"><?php echo $text_return; ?></a></li>]]></search> 
+			<add><![CDATA[     		
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="<?php echo $return; ?>"><img src="catalog/view/theme/default/image/account-images/return.png" alt="Your Returns" >
+<h5><?php echo $text_return; ?></h5></a></div>
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="<?php echo $transaction; ?>"><?php echo $text_transaction; ?></a></li>]]></search> 
+			<add><![CDATA[     		
+<!--<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="<?php echo $transaction; ?>"><img src="catalog/view/theme/default/image/account-images/trans.png" alt="Transactions" >
+<h5><?php echo $text_transaction; ?></h5></a></div>-->
+      ]]></add>
+	</operation>
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="<?php echo $recurring; ?>"><?php echo $text_recurring; ?></a></li>]]></search> 
+			<add><![CDATA[     		
+<!--<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="<?php echo $recurring; ?>"><img src="catalog/view/theme/default/image/account-images/payments.png" alt="Recurring Payments" >
+<h5><?php echo $text_recurring; ?></h5></a></div><div class="clearfix"></div>-->
+      ]]></add>
+	</operation>	
+	<operation error="skip">
+		<search position="replace"><![CDATA[<li><a href="<?php echo $newsletter; ?>"><?php echo $text_newsletter; ?></a></li>]]></search> 
+			<add><![CDATA[     		
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="<?php echo $newsletter; ?>"><img src="catalog/view/theme/default/image/account-images/newsletter.png" alt="Your Newsletter" >
+<h5><?php echo $text_newsletter; ?></h5></a></div>
+
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 xs-50 sm-50 md-25 lg-25 xl-25 text-center ikonlar" ><a class="hvr" href="/cikis"><img src="catalog/view/theme/default/image/account-images/exit.png" alt="Çıkış Yap" >
+<h5>Çıkış Yap</h5></a></div>
+      ]]></add>
+	</operation> 
+	<operation error="skip">
+		<search position="replace"><![CDATA[<h2><?php echo $text_my_newsletter; ?></h2>]]></search> 
+			<add><![CDATA[
+      ]]></add>
+	</operation>  	
+</file>
+</modification>
